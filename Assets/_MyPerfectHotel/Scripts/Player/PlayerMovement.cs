@@ -1,38 +1,39 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace _MyPerfectHotel.Scripts.Player
 {
     [RequireComponent(typeof(PlayerController))]
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed, crossFadeTime;
+        [SerializeField] private float crossFadeIdleTime, crossFadeWalkTime;
         [SerializeField] private DynamicJoystick joystick; 
         
         private Animator _animator;
-        private Rigidbody _rigidbody;
+        private NavMeshAgent _agent;
         private bool _isWalk;
         
         private void Start()
         {
-            _rigidbody = GetComponent<Rigidbody>();
             _animator = GetComponent<Animator>();
+            _agent = GetComponent<NavMeshAgent>();
         }
 
         private void FixedUpdate()
         {
-            _rigidbody.velocity = new Vector3(joystick.Horizontal * moveSpeed, _rigidbody.velocity.y, joystick.Vertical * moveSpeed);
-            
+            var direction = new Vector3(joystick.Horizontal, _agent.destination.y, joystick.Vertical);
+
             if (joystick.Horizontal != 0 || joystick.Vertical != 0)
-                transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
+                _agent.SetDestination(transform.position + direction);
             
             if ((joystick.Horizontal != 0 || joystick.Vertical != 0) && !_isWalk)
             {
-                _animator.CrossFade("Walking", crossFadeTime);
+                _animator.CrossFade("Walking", crossFadeWalkTime);
                 _isWalk = true;
             }
             else if (joystick.Horizontal == 0 && joystick.Vertical == 0 && _isWalk)
             {
-                _animator.CrossFade("Idle", crossFadeTime);
+                _animator.CrossFade("Idle", crossFadeIdleTime);
                 _isWalk = false;
             }
         }
