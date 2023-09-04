@@ -8,8 +8,6 @@ namespace _MyPerfectHotel.Scripts.Player
         private void OnTriggerEnter(Collider other)
         {
             other.transform.TryGetComponent<ControlPoint>(out var controlPoint);
-            
-            Debug.Log(controlPoint);
         }
     }
 }

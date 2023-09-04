@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4994828933120883082}
   - component: {fileID: 1616153554060871027}
   m_Layer: 0
-  m_Name: m_MushroomHat01
+  m_Name: MushroomHat01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

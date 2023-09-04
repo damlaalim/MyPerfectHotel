@@ -21,10 +21,10 @@ namespace _MyPerfectHotel.Scripts.Player
 
         private void FixedUpdate()
         {
-            var direction = new Vector3(joystick.Horizontal, _agent.destination.y, joystick.Vertical);
+            var dest = transform.position + new Vector3(joystick.Horizontal, _agent.destination.y, joystick.Vertical);
 
             if (joystick.Horizontal != 0 || joystick.Vertical != 0)
-                _agent.SetDestination(transform.position + direction);
+                _agent.SetDestination(dest);
             
             if ((joystick.Horizontal != 0 || joystick.Vertical != 0) && !_isWalk)
             {
@@ -36,6 +36,7 @@ namespace _MyPerfectHotel.Scripts.Player
                 _animator.CrossFade("Idle", crossFadeIdleTime);
                 _isWalk = false;
             }
+
         }
     }
 }
