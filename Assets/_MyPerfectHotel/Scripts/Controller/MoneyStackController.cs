@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _MyPerfectHotel.Scripts.Data;
 using _MyPerfectHotel.Scripts.Managers;
 using _MyPerfectHotel.Scripts.Player;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -65,6 +63,7 @@ namespace _MyPerfectHotel.Scripts.Controller
 
             _moneyAmount = 0;
             _moneyList.Clear();
+            _moneyPos = Vector3Int.zero;
         }
     }
 }

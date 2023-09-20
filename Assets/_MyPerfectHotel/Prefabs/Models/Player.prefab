@@ -108,7 +108,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: bf127f78ce8c3f14f9a0a364b675f99d, type: 2}
     - target: {fileID: 2300758545313718248, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2300758545313718248, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -128,7 +128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2300758545313718248, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2300758545313718248, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2300758545313718248, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2300758545313718248, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -170,6 +170,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1487946100914390354, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 497376337471608312}
+    - targetCorrespondingSourceObject: {fileID: 1487946100914390354, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5421585071250141570}
   m_SourcePrefab: {fileID: 100100000, guid: 522b48afe110447e8b6c11906f9c1c7d, type: 3}
 --- !u!4 &5941691669904791937 stripped
 Transform:
@@ -230,3 +233,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5421585071250141570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6937861563682529284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff

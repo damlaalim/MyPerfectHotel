@@ -19,7 +19,7 @@ namespace _MyPerfectHotel.Scripts.Player
             _agent = GetComponent<NavMeshAgent>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             var dest = transform.position + new Vector3(joystick.Horizontal, _agent.destination.y, joystick.Vertical);
 
@@ -33,6 +33,7 @@ namespace _MyPerfectHotel.Scripts.Player
             }
             else if (joystick.Horizontal == 0 && joystick.Vertical == 0 && _isWalk)
             {
+                _agent.ResetPath();
                 _animator.CrossFade("Idle", crossFadeIdleTime);
                 _isWalk = false;
             }
