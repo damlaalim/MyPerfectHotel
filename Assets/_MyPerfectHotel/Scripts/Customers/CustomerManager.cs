@@ -1,27 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using _MyPerfectHotel.Scripts.Data;
+using _MyPerfectHotel.Scripts.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace _MyPerfectHotel.Scripts.Customers
 {
     public class CustomerManager : MonoBehaviour
     {
-        public Action CustomerMovedAction;
+        public Action CustomerLeftQueue;
+
+        public int CreatedCustomerCount => _createdCustomer.Count;
+        
         [SerializeField] private List<Customer> customerList;
         [SerializeField] private List<Transform> targetTransform;
-        [SerializeField] private Transform roomTransform, initTransform;
+        [SerializeField] private Transform roomTransform, initTransform, moneyStackPos;
 
+        [Inject] private MoneyManager _moneyManager;
+        
         private Queue<Customer> _createdCustomer = new();
 
         private void Start()
         {
-            CustomerMovedAction += CustomerMoved;
+            CustomerLeftQueue += CustomerLeftTheQueue;
+
+            for (var i = 0; i < 3; i++)
+            {
+                CreateCustomer();
+            }
         }
 
-        private void CustomerMoved()
+        private void CustomerLeftTheQueue()
         {
             var i = 0;
             foreach (var customer in _createdCustomer)
@@ -29,6 +42,7 @@ namespace _MyPerfectHotel.Scripts.Customers
                 customer.TryGetComponent<NavMeshAgent>(out var agent);
                 agent.SetDestination(targetTransform[i].position);
                 i++;
+
             }
             CreateCustomer();
         }
@@ -49,7 +63,7 @@ namespace _MyPerfectHotel.Scripts.Customers
         }
 
         [Button]
-        private void DeleteCustomer()
+        public void SendCustomerToTheRoom()
         {
             if (_createdCustomer.Count <= 0)
                 return;
@@ -59,7 +73,9 @@ namespace _MyPerfectHotel.Scripts.Customers
             agent.SetDestination(roomTransform.position);
             
             _createdCustomer.Dequeue();
-            CustomerMovedAction?.Invoke();
+            CustomerLeftQueue?.Invoke();
+
+            _moneyManager.MoveToMoney(customer.transform.position, MoneyStackType.Reception);
         }
     }
 }

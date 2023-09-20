@@ -187,5 +187,5 @@ Material:
     - _LMColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-    - _TintColor: {r: 0.4245283, g: 0.3980954, b: 0.3980954, a: 1}
+    - _TintColor: {r: 0.47547168, g: 0.5350431, b: 1, a: 1}
   m_BuildTextureStacks: []
