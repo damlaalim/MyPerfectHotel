@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _MyPerfectHotel.Scripts.Data;
 using _MyPerfectHotel.Scripts.Managers;
+using _MyPerfectHotel.Scripts.Room;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,9 +19,10 @@ namespace _MyPerfectHotel.Scripts.Customers
         
         [SerializeField] private List<Customer> customerList;
         [SerializeField] private List<Transform> targetTransform;
-        [SerializeField] private Transform roomTransform, initTransform, moneyStackPos;
+        [SerializeField] private Transform initTransform;
 
         [Inject] private MoneyManager _moneyManager;
+        [Inject] private RoomManager _roomManager;
         
         private Queue<Customer> _createdCustomer = new();
 
@@ -29,9 +31,7 @@ namespace _MyPerfectHotel.Scripts.Customers
             CustomerLeftQueue += CustomerLeftTheQueue;
 
             for (var i = 0; i < 3; i++)
-            {
                 CreateCustomer();
-            }
         }
 
         private void CustomerLeftTheQueue()
@@ -39,11 +39,11 @@ namespace _MyPerfectHotel.Scripts.Customers
             var i = 0;
             foreach (var customer in _createdCustomer)
             {
-                customer.TryGetComponent<NavMeshAgent>(out var agent);
-                agent.SetDestination(targetTransform[i].position);
+                var newOrderPos = targetTransform[i].position;
+                customer.MoveThePosition(newOrderPos);
                 i++;
-
             }
+            
             CreateCustomer();
         }
 
@@ -55,11 +55,13 @@ namespace _MyPerfectHotel.Scripts.Customers
             
             var randomIndex = Random.Range(0, customerList.Count);
             var newCustomer    = Instantiate(customerList[randomIndex]);
-            newCustomer.transform.position = initTransform.position;
-            newCustomer.TryGetComponent<NavMeshAgent>(out var agent);
+            var initPos = initTransform.position;
+            
+            newCustomer.Initialize(initPos);
             _createdCustomer.Enqueue(newCustomer);
-
-            agent.SetDestination(targetTransform[_createdCustomer.Count - 1].position);
+            
+            var orderPos= targetTransform[_createdCustomer.Count - 1].position;
+            newCustomer.MoveThePosition(orderPos);
         }
 
         [Button]
@@ -68,9 +70,12 @@ namespace _MyPerfectHotel.Scripts.Customers
             if (_createdCustomer.Count <= 0)
                 return;
 
+            var room = _roomManager.GetRoom();
+            if (room is null) return;
+            
             var customer = _createdCustomer.Peek();
-            customer.TryGetComponent<NavMeshAgent>(out var agent);
-            agent.SetDestination(roomTransform.position);
+            customer.GoToTheRoom(room);
+            room.GetTheCustomerInRoom(customer);
             
             _createdCustomer.Dequeue();
             CustomerLeftQueue?.Invoke();

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using _MyPerfectHotel.Scripts.Customers;
+using _MyPerfectHotel.Scripts.Room;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -12,6 +13,7 @@ namespace _MyPerfectHotel.Scripts.UI
         [SerializeField] private Image pointFillImage;
 
         [Inject] private CustomerManager _customerManager;
+        [Inject] private RoomManager _roomManager;
 
         private bool _isEnterThePoint;
 
@@ -34,15 +36,16 @@ namespace _MyPerfectHotel.Scripts.UI
 
         private async void FillThePointTask()
         {
-            // TODO: only room is empty
             while (_isEnterThePoint)
             {
                 await Task.Delay((int)(customerWaitDelay * 1000));
 
-                if (_customerManager.CreatedCustomerCount <= 0)
+                if (_customerManager.CreatedCustomerCount <= 0 || !_roomManager.GetRoom())
                     continue;
                 
                 var elapsedTime = pointFillImage.fillAmount * pointFillTime;
+                var sendCustomer = false;
+                
                 while (elapsedTime < pointFillTime && pointFillImage)
                 {
                     pointFillImage.fillAmount = Mathf.Lerp(0, 1, elapsedTime / pointFillTime);
@@ -51,8 +54,13 @@ namespace _MyPerfectHotel.Scripts.UI
                     await Task.Yield();
                     
                     if (!_isEnterThePoint) return;
+                    sendCustomer = true;
                 }
 
+                if (!sendCustomer)
+                    return;
+                
+                Debug.Log("fill point task");
                 pointFillImage.fillAmount = 0f;
                 _customerManager.SendCustomerToTheRoom();
             }
